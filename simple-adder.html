@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+
+    <script>
+      $(document).ready(function(){
+        $("#btnOK").click(function(){
+           var a= $("#txtFirst").val();
+           var b= $("#txtSecond").val();
+
+           var r=parseInt(a)+parseInt(b);
+           $("#txtResult").val(r);
+            return false;
+      });
+    });
+      
+    </script>
+</head>
+<body >
+    First:<input type="text" id="txtFirst"/><br>
+    Second:<input type="text" id="txtSecond"/><br>
+    <input type="submit" value="OK" id="btnOK"/>
+    <input type="text" id="txtResult" /><br>
+
+</body>
+</html>
