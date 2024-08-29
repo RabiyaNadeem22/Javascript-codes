@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Document</title>
+    <script>
+        var _countries=[];
+        _countries.push({CountryID:1,Name:'Pakistan'});
+        _countries.push({CountryID:2,Name:'India'});
+        _countries.push({CountryID:3,Name:'China'});
+
+        var _cities=[];
+
+        _cities.push({CityID:1,countryID:1,Name:'Lahore'});
+        
+        _cities.push({CityID:2,countryID:1,Name:'Karachi'});
+        
+        _cities.push({CityID:3,countryID:1,Name:'Islamabad'});
+        
+        _cities.push({CityID:4,countryID:2,Name:'Delhi'});
+        
+        _cities.push({CityID:5,countryID:2,Name:'Bombay'});
+        
+        _cities.push({CityID:6,countryID:3,Name:'Shanghai'});
+        
+        _cities.push({CityID:7,countryID:3,Name:'Beijing'});
+
+        $(document).ready(function(){
+            var cmb1=$("#country");
+            var opt=$("<option>");
+            opt.attr("value",0);
+                    opt.text("--sELEct--");
+                    cmb1.append(opt);
+
+            for(var i=0;i<_countries.length;i++){
+                var opt=$("<option>");
+                    opt.attr("value",_countries[i].CountryID);
+                    opt.text(_countries[i].Name);
+                    cmb1.append(opt);
+            }
+
+            cmb1.change(function(){
+                var cmbCity=$("#city");
+                cmbCity.find("option:not(:first)").remove();
+
+                // var opt=$("<option>");
+                // opt.attr("value",0);
+                // opt.text("--sELEct--");
+                // cmbCity.append(opt);
+
+
+                var cid=$(this).val();
+            
+
+                for (var i=0;i<_cities.length;i++){
+                    if(_cities[i].countryID==cid){
+                    var opt=$("<option>");
+                    opt.attr("value",_cities[i].CityID);
+                    opt.text(_cities[i].Name);
+
+                cmbCity.append(opt);}}
+            })
+
+        });
+        
+        
+
+    </script>
+</head>
+<body>
+   Country:<select id="country"></select></br>
+   City:<select id="city">
+   <option value="0">--SELECT--</option>
+</select> 
+</body>
+</html>
