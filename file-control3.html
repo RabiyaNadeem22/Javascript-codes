@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload with jQuery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #fileInput {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        #fileList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            background-color: #f0f4f8;
+            border: 1px solid #e1e5eb;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .file-item img {
+            max-width: 60px;
+            max-height: 60px;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        .file-item span {
+            flex: 1;
+        }
+
+        .file-item .file-name {
+            font-weight: 600;
+        }
+
+        .file-item .file-size {
+            color: #888;
+        }
+
+        .remove-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: #ff4d4d;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            color: #cc0000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload Files</h1>
+        <input type="file" id="fileInput" multiple>
+        <div id="fileList"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#fileInput').on('change', function () {
+                $('#fileList').empty(); // Clear previous files
+                const files = $(this).prop('files');
+
+                Array.from(files).forEach(file => {
+                    const fileItem = $('<div>').addClass('file-item');
+                    const fileName = $('<span>').addClass('file-name').text(file.name);
+                    const fileSize = $('<span>').addClass('file-size').text((file.size / 1024).toFixed(2) + ' KB');
+                    const removeBtn = $('<span>').text('×').addClass('remove-btn');
+                    const img = $('<img>');
+
+                    // Check if the file is an image
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                            img.attr('src', event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+
+                    removeBtn.on('click', function () {
+                        $(this).parent().remove(); // Remove the file item
+                    });
+
+                    fileItem.append(img).append(fileName).append(fileSize).append(removeBtn);
+                    $('#fileList').append(fileItem);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
