@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Span with Enhanced UI</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .mywrapper {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        #span1 {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        #span1:hover {
+            background-color: #0056b3;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            flex: 1;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.cancel-btn {
+            background-color: #ff4d4d;
+        }
+
+        button.cancel-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mywrapper">
+        <span id="span1">Click to Edit</span>
+    </div>
+
+    <script>
+        $(function () {
+            var $span = $("#span1");
+            $span.click(function () {
+                var $thisSpan = $(this);
+                $thisSpan.hide();
+
+                var txt = $thisSpan.text();
+                var inpt = $("<input>").attr("type", "text").val(txt);
+
+                var btn1 = $("<button>").attr("type", "button").text("Save");
+                var btn2 = $("<button>").attr("type", "button").text("Cancel").addClass('cancel-btn');
+
+                var div = $("<div>").addClass("wrapper");
+                div.append(inpt);
+                div.append(btn1);
+                div.append(btn2);
+
+                $thisSpan.after(div);
+
+                btn1.click(function () {
+                    var ntxt = inpt.val();
+                    $thisSpan.text(ntxt);
+                    $thisSpan.show();
+                    div.remove();
+                });
+
+                btn2.click(function () {
+                    $thisSpan.show();
+                    div.remove();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
