@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Control</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#myfile").change(function () {
+                var files = $(this).get(0).files;
+
+                if (files.length > 0) {
+                    for (var ind = 0; ind < files.length; ind++) {
+                        console.log(files[ind]);
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            debugger;
+                            var img = $("<img>").css({ "width": 200, "height": 200 });
+                            img.attr("src", e.target.result);
+                            var d = $("<div>");
+                            d.append(img);
+                            $(".container").append(d);
+                        }
+                        reader.readAsDataURL(files[ind]);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    Picture:<input type="file" id="myfile" /> <br>
+
+    <div class="container"></div>
+</body>
+
+</html>
