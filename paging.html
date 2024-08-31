@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paging Practice</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .main_wrapper {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        .main_wrapper p {
+            padding: 10px;
+            margin: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .main_wrapper p:last-child {
+            border-bottom: none;
+        }
+
+        .navlinks {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .navlinks a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            color: #007bff;
+            text-decoration: none;
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navlinks a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .selectedpg {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        #txtPageSize {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+            width: 60px;
+        }
+
+        #lnkCreatePaging {
+            padding: 8px 12px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #lnkCreatePaging:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Paging Practice</h1>
+
+    <div>
+        Page Size: <input type="text" id="txtPageSize" placeholder="Enter size" />
+        <a href="#" id="lnkCreatePaging">Create Paging</a>
+    </div>
+
+    <div class="main_wrapper">
+        <p>ID: 1, Name: Bilal, Address: Lahore</p>
+        <p>ID: 2, Name: Bilal, Address: Lahore</p>
+        <p>ID: 3, Name: Bilal, Address: Lahore</p>
+        <p>ID: 4, Name: Bilal, Address: Lahore</p>
+        <p>ID: 5, Name: Bilal, Address: Lahore</p>
+        <p>ID: 6, Name: Bilal, Address: Lahore</p>
+        <p>ID: 7, Name: Bilal, Address: Lahore</p>
+        <p>ID: 8, Name: Bilal, Address: Lahore</p>
+        <p>ID: 9, Name: Bilal, Address: Lahore</p>
+        <p>ID: 10, Name: Bilal, Address: Lahore</p>
+
+        <div class="navlinks"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(MainFunction);
+
+        function MainFunction() {
+            $("#lnkCreatePaging").click(function (e) {
+                e.preventDefault();
+
+                var pageSize = Number($("#txtPageSize").val());
+
+                if (isNaN(pageSize) || pageSize <= 0) {
+                    alert('Invalid Page Size');
+                    return;
+                }
+
+                var paras = $(".main_wrapper p");
+                var pages = Math.ceil(paras.length / pageSize);
+
+                $(".main_wrapper p").hide(); // Hide all paragraphs initially
+                $(".navlinks").empty(); // Clear any existing navigation links
+
+                for (var i = 0; i < pages; i++) {
+                    CreateNavButtonForPage(i + 1, i * pageSize, (i + 1) * pageSize - 1);
+                }
+
+                $(".navlinks a:first").trigger('click');
+            });
+
+            function CreateNavButtonForPage(pageNo, startIdx, endIdx) {
+                var btn = $("<a href='#'>" + pageNo + "</a>");
+
+                btn.click(function (e) {
+                    e.preventDefault();
+
+                    $(".navlinks a.selectedpg").removeClass('selectedpg');
+                    $(this).addClass('selectedpg');
+
+                    $(".main_wrapper p").hide().slice(startIdx, endIdx + 1).show();
+                });
+
+                $(".navlinks").append(btn);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

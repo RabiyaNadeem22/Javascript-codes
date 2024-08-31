@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Rows Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #maincontainer {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            border: solid 1px #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .row span {
+            margin-right: 10px;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .row input[type="text"] {
+            margin-right: 10px;
+            padding: 5px;
+            flex: 2;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .row input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .row input[type="submit"]:hover {
+            background-color: #cc0000;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-container input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            max-width: 600px;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Create Dynamic Rows</h1>
+
+    <div id="maincontainer"></div>
+
+    <div class="btn-container">
+        <input type="submit" id="btnAdd" value="Add Row" />
+        <input type="submit" id="btnShow" value="Show Results" />
+    </div>
+
+    <table id="resultsTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Degree</th>
+                <th>Name</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        var rowCounter = 0;
+
+        $(document).ready(function () {
+
+            $("#btnAdd").click(function () {
+                rowCounter++;
+
+                var row = $("<div>").addClass("row");
+
+                var span = $("<span>").text(rowCounter + " Degree:");
+                row.append(span);
+
+                var inp = $("<input>").attr({ "type": "text", "id": "txtDegree", "placeholder": "Enter Degree" });
+                row.append(inp);
+
+                span = $("<span>").text("Name:");
+                row.append(span);
+
+                inp = $("<input>").attr({ "type": "text", "id": "txtName", "placeholder": "Enter Name" });
+                row.append(inp);
+
+                span = $("<span>").text("Marks:");
+                row.append(span);
+
+                inp = $("<input>").attr({ "type": "text", "id": "txtMarks", "placeholder": "Enter Marks" });
+                row.append(inp);
+
+                inp = $("<input>").attr({ "type": "submit", "value": "Remove" });
+
+                inp.click(function () {
+                    var result = confirm("Do you want to remove this row?");
+                    if (result) {
+                        $(this).closest('div.row').remove();
+                    }
+                });
+
+                row.append(inp);
+
+                $('#maincontainer').append(row);
+            });
+
+            $("#btnShow").click(function () {
+                var resultsTable = $("#resultsTable tbody");
+                resultsTable.empty(); // Clear previous results
+
+                $("#maincontainer div.row").each(function () {
+                    var d = $(this).find("#txtDegree").val();
+                    var n = $(this).find("#txtName").val();
+                    var m = $(this).find("#txtMarks").val();
+
+                    if (d && n && m) { // Ensure no empty rows are added
+                        var newRow = "<tr><td>" + d + "</td><td>" + n + "</td><td>" + m + "</td></tr>";
+                        resultsTable.append(newRow);
+                    }
+                });
+
+                $("#resultsTable").show(); // Show the table after adding rows
+            });
+        });
+    </script>
+
+</body>
+
+</html>
