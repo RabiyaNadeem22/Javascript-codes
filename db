@@ -1,0 +1,16 @@
+CREATE TABLE Users (
+   Id INT PRIMARY KEY IDENTITY,
+   Name NVARCHAR(100),
+   Email NVARCHAR(100),
+   Password NVARCHAR(100),
+   Industry NVARCHAR(100)
+);
+
+CREATE TABLE Achievements (
+   Id INT PRIMARY KEY IDENTITY,
+   Title NVARCHAR(100),
+   Description NVARCHAR(MAX),
+   Date DATETIME,
+   Tag NVARCHAR(100),
+   UserId INT FOREIGN KEY REFERENCES Users(Id)
+);
